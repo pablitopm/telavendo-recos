@@ -4,6 +4,7 @@ import (
 	"telavendo.com.ar/telavendo-recos/app/domain/model"
 )
 
-type ProductCombinationRankingRepository interface {
-	Upsert(*model.ProductCombinationRanking) error
+type UserPurchaseRepository interface {
+	Upsert(purchase *model.UserPurchase) error
+	Get(purchase *model.UserPurchase) (*model.UserPurchase, error)
 }

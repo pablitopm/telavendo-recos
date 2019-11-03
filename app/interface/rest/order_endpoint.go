@@ -5,7 +5,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
-	"telavendo.com.ar/telavendo-recos/app/domain/model"
 	"telavendo.com.ar/telavendo-recos/app/registry"
 	"telavendo.com.ar/telavendo-recos/app/usecase"
 )
@@ -27,25 +26,10 @@ func SaveOrderProducts(c *gin.Context) {
 	userPurchaseUseCase := ctn.Resolve("user-purchase-usecase").(usecase.UserPurchaseUsecase)
 
 	order, err := orderUseCase.GetOrder(req.ID)
+	//first we save each product for user
 	for _, product := range order.Products {
-
-		userPurchase := &model.UserPurchase{}
-		userPurchase.UserID = order.Customer.ID
-		userPurchase.ProductID = product.ProductID
-		userPurchase.PurchasedTimes++
-
-		userPurchaseUseCase.RegisterUserPurchase(*userPurchase)
+		userPurchaseUseCase.RegisterUserPurchase(order.Customer.ID, product.ProductID)
 	}
-	/*err = order.Validate()
-	if err != nil {
-		log.Error("Did not pass validations", err.Error())
-		c.AbortWithStatusJSON(http.StatusBadRequest, err)
-		return
-	}*/
-
-	//ctn := c.MustGet("ctn").(*registry.Container)
-	//useCase := ctn.Resolve("user-purchase-usecase").(usecase.UserPurchaseUsecase)
-	//userPurchase, _ := useCase.StartGame(game)
-
+	//then we iterate the combination to add weight to combination
 	c.JSON(http.StatusCreated, nil)
 }

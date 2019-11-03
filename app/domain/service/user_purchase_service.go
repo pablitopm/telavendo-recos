@@ -1,7 +1,6 @@
 package service
 
 import (
-	"telavendo.com.ar/telavendo-recos/app/domain/model"
 	"telavendo.com.ar/telavendo-recos/app/domain/repository"
 )
 
@@ -13,8 +12,4 @@ func NewUserPurchaseService(repo repository.UserPurchaseRepository) *UserPurchas
 	return &UserPurchaseService{
 		repo: repo,
 	}
-}
-
-func GetUserPurchaseFromOrder(order *model.Order) error {
-	return nil
 }

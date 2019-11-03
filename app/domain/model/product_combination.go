@@ -1,7 +1,7 @@
 package model
 
-type ProductCombinationRanking struct {
+type ProductCombination struct {
 	BaseProductID        int
 	CombinationProductID int
-	Ranking              int
+	Weight               float32
 }

@@ -7,7 +7,7 @@ import (
 )
 
 type UserPurchaseUsecase interface {
-	RegisterUserPurchase(model.UserPurchase) error
+	RegisterUserPurchase(userID, productID int) error
 }
 
 type userPurchaseUsecase struct {
@@ -22,8 +22,11 @@ func NewUserPurchaseUsecase(repo repository.UserPurchaseRepository, service *ser
 	}
 }
 
-func (u *userPurchaseUsecase) RegisterUserPurchase(purchase model.UserPurchase) error {
-	err := u.repo.Upsert(&purchase)
+func (u *userPurchaseUsecase) RegisterUserPurchase(userID, productID int) error {
+	purchase := &model.UserPurchase{}
+	purchase.ProductID = productID
+	purchase.UserID = userID
+	err := u.repo.Upsert(purchase)
 	if err != nil {
 		return err
 	}

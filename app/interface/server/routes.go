@@ -16,5 +16,6 @@ func createRoutes(r *gin.Engine) {
 	})
 
 	r.POST("/order", rest.SaveOrderProducts)
+	r.GET("/product/combination/:productID", rest.GetProductCombination)
 
 }

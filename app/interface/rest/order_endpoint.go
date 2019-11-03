@@ -1,7 +1,9 @@
 package rest
 
 import (
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
@@ -31,5 +33,20 @@ func SaveOrderProducts(c *gin.Context) {
 		userPurchaseUseCase.RegisterUserPurchase(order.Customer.ID, product.ProductID)
 	}
 	//then we iterate the combination to add weight to combination
-	c.JSON(http.StatusCreated, nil)
+	c.JSON(http.StatusOK, nil)
+}
+
+func GetProductCombination(c *gin.Context) {
+	productID, _ := strconv.Atoi(c.Param("productID"))
+	quantity, _ := strconv.Atoi(c.Param("quantity"))
+	if quantity == 0 {
+		quantity = 5 //basic number
+	}
+	fmt.Println(productID)
+	//ctn := c.MustGet("ctn").(*registry.Container)
+	//productCombinationUseCase := ctn.Resolve("product-combination-usecase").(usecase.UserPurchaseUsecase)
+
+	//productRanking, err := productCombinationUseCase.GetProductCombinationTop(quantity)
+
+	c.JSON(http.StatusOK, nil)
 }
